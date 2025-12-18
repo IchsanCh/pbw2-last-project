@@ -8,7 +8,7 @@ class BarangModel extends Model
 {
     protected $table            = 'barangs';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
@@ -37,7 +37,13 @@ class BarangModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'id'          => 'required|alpha_numeric|min_length[3]|max_length[20]|is_unique[barangs.id]',
+        'id_kategori' => 'required|is_not_unique[kategoris.id]',
+        'nama_brg'    => 'required|min_length[3]',
+        'harga'       => 'required|numeric',
+        'stok'        => 'required|integer',
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
