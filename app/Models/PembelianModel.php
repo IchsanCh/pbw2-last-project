@@ -4,21 +4,18 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BarangModel extends Model
+class PembelianModel extends Model
 {
-    protected $table            = 'barangs';
+    protected $table            = 'pembelians';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = false;
+    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id',
-        'id_kategori',
-        'nama_brg',
-        'satuan',
-        'harga',
-        'stok',
+        'id_supplier',
+        'id_user',
         'created_at',
         'updated_at'
     ];
@@ -37,12 +34,9 @@ class BarangModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id'          => 'required|string|min_length[3]|max_length[20]|is_unique[barangs.id]',
-        'id_kategori' => 'required|is_not_unique[kategoris.id]',
-        'nama_brg'    => 'required|min_length[3]|max_length[255]',
-        'satuan'      => 'required|min_length[3]|max_length[100]',
-        'harga'       => 'required|numeric',
-        'stok'        => 'required|integer',
+        'id'            => 'required|string|max_length[15]|is_unique[pembelians.id]',
+        'id_supplier'   => 'required|integer|is_not_unique[suppliers.id]',
+        'id_user'       => 'required|integer|is_not_unique[users.id]'
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

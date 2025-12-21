@@ -33,7 +33,10 @@ class KategoriModel extends Model
     protected $updatedField  = 'updated_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'nama_kategori' => 'required|min_length[3]|max_length[100]',
+        'status'        => 'required|in_list[aktif,tidak aktif]',
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;

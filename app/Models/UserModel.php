@@ -36,7 +36,14 @@ class UserModel extends Model
     protected $updatedField  = 'updated_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'id'        => 'required|integer|is_unique[users.id]',
+        'nama'      => 'required|min_length[3]|max_length[100]',
+        'username'  => 'required|alpha_numeric|min_length[3]|max_length[255]|is_unique[users.username]',
+        'password'  => 'required|min_length[6]|max_length[255]',
+        'role'      => 'required|in_list[pemilik,kasir]',
+        'status'    => 'required|in_list[aktif,tidak aktif]',
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;

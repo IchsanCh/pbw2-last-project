@@ -35,7 +35,13 @@ class SupplierModel extends Model
     protected $updatedField  = 'updated_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'id'         => 'required|integer|is_unique[suppliers.id]',
+        'nama_suppl' => 'required|min_length[3]|max_length[100]',
+        'alamat'     => 'required|min_length[3]',
+        'telepon'    => 'required|regex_match[/^(\+62|08)[0-9]{8,11}$/]',
+        'status'     => 'required|in_list[aktif,tidak aktif]',
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
