@@ -11,28 +11,28 @@ $segment = service('uri')->getSegment(1);
     </div>
     <ul class="menu p-4 gap-1 flex-1">
         <li>
-            <a href="<?= base_url('dashboard') ?>" class="<?= $segment === 'dashboard' ? 'active font-bold' : 'text-white' ?>">Dashboard</a>
+            <a href="<?= base_url('dashboard') ?>" class="<?= $segment === 'dashboard' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Dashboard</a>
         </li>
         <?php if ($role === 'pemilik'): ?>
             <li class="menu-title text-black mt-2">Manajemen</li>
             <li>
-                <a href="<?= base_url('kategori') ?>">Kategori</a>
+                <a href="<?= base_url('kategori') ?>" class="<?= $segment === 'kategori' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Kategori</a>
             </li>
             <li>
-                <a href="<?= base_url('produk') ?>">Produk</a>
+                <a href="<?= base_url('barang') ?>" class="<?= $segment === 'barang' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Barang</a>
             </li>
             <li>
-                <a href="<?= base_url('supplier') ?>">Supplier</a>
+                <a href="<?= base_url('supplier') ?>" class="<?= $segment === 'supplier' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Supplier</a>
             </li>
             <li>
-                <a href="<?= base_url('user') ?>">User</a>
+                <a href="<?= base_url('users') ?>" class="<?= $segment === 'users' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">User</a>
             </li>
             <li class="menu-title mt-3 text-black">Laporan</li>
             <li>
-                <a href="<?= base_url('penjualan') ?>">Penjualan</a>
+                <a href="<?= base_url('laporan/penjualan') ?>" class="<?= $segment === 'laporan/penjualan' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Penjualan</a>
             </li>
              <li>
-                <a href="<?= base_url('pembelian') ?>">Pembelian</a>
+                <a href="<?= base_url('laporan/pembelian') ?>" class="<?= $segment === 'laporan/pembelian' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Pembelian</a>
             </li>
         <?php endif; ?>
         <?php if ($role === 'kasir'): ?>

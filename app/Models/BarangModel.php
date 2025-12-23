@@ -19,8 +19,8 @@ class BarangModel extends Model
         'satuan',
         'harga',
         'stok',
-        'created_at',
-        'updated_at'
+        'min_stok',
+        'status'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -37,12 +37,14 @@ class BarangModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id'          => 'required|string|min_length[3]|max_length[20]|is_unique[barangs.id]',
+        'id'          => 'required|STRING|min_length[3]|max_length[20]|is_unique[barangs.id]',
         'id_kategori' => 'required|is_not_unique[kategoris.id]',
         'nama_brg'    => 'required|min_length[3]|max_length[255]',
         'satuan'      => 'required|min_length[3]|max_length[100]',
         'harga'       => 'required|numeric',
-        'stok'        => 'required|integer',
+        'stok'        => 'required|decimal',
+        'min_stok'    => 'required|decimal',
+        'status'      => 'required|in_list[aktif,tidak aktif]',
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

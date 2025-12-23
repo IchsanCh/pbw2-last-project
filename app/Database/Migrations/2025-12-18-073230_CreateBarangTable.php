@@ -12,36 +12,44 @@ class CreateBarangTable extends Migration
            'id' => [
                'type'           => 'VARCHAR',
                'constraint'     => 20,
-           ],
-           'id_kategori' => [
+            ],
+            'id_kategori' => [
                'type'       => 'INT',
                'constraint' => 12,
                 'unsigned'   => true,
-           ],
-           'nama_brg' => [
+            ],
+            'nama_brg' => [
                'type'       => 'VARCHAR',
                'constraint' => 255,
-           ],
-           'satuan' => [
+            ],
+            'satuan' => [
                'type'       => 'VARCHAR',
                'constraint' => 100,
-           ],
-           'harga' => [
+            ],
+            'harga' => [
                'type'       => 'INT',
                'constraint' => 12,
-           ],
-           'stok' => [
-               'type'       => 'INT',
-               'constraint' => 12,
-           ],
+            ],
+            'stok' => [
+                'type'       => 'DECIMAL',
+                'constraint' => '12,2',
+            ],
+            'min_stok' => [
+                'type'       => 'DECIMAL',
+                'constraint' => '12,2',
+            ],
+            'status' => [
+                'type'       => 'ENUM',
+                'constraint' => ['aktif', 'tidak aktif'],
+            ],
             'created_at' => [
                'type' => 'DATETIME',
                'null' => true,
-           ],
-           'updated_at' => [
+            ],
+            'updated_at' => [
                'type' => 'DATETIME',
                'null' => true,
-           ]
+            ]
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_kategori', 'kategoris', 'id', 'RESTRICT', 'RESTRICT');

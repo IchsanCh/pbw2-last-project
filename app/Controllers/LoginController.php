@@ -43,7 +43,7 @@ class LoginController extends BaseController
         if (!password_verify($this->request->getPost('password'), $user['password'])) {
             return redirect()->back()->with('error', 'Username atau password salah');
         }
-        if (isset($user['is_active']) && !$user['is_active']) {
+        if ($user['status'] !== 'aktif') {
             return redirect()->back()->with('error', 'Akun Anda telah dinonaktifkan');
         }
         session()->set([

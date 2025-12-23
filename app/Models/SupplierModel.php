@@ -13,7 +13,6 @@ class SupplierModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id',
         'nama_suppl',
         'alamat',
         'telepon',
@@ -36,7 +35,6 @@ class SupplierModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id'         => 'required|integer|is_unique[suppliers.id]',
         'nama_suppl' => 'required|min_length[3]|max_length[100]',
         'alamat'     => 'required|min_length[3]',
         'telepon'    => 'required|regex_match[/^(\+62|08)[0-9]{8,11}$/]',

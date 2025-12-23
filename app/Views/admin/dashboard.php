@@ -32,9 +32,9 @@ $username = session('username');
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                         </svg>
                     </div>
-                    <div class="stat-title text-black font-semibold">Total Produk</div>
-                    <div class="stat-value text-accent">156</div>
-                    <div class="stat-desc text-black font-semibold">8 produk stok menipis</div>
+                    <div class="stat-title text-black font-semibold">Total Barang</div>
+                    <div class="stat-value text-accent"><?= $totalBarang ?></div>
+                    <div class="stat-desc text-black font-semibold"><?= $stokMenipis ?> barang stok menipis</div>
                 </div>
             </div>
             <div class="stats shadow-md hover:shadow-xl transition-all duration-200">
@@ -45,7 +45,7 @@ $username = session('username');
                         </svg>
                     </div>
                     <div class="stat-title font-semibold text-black">Total Supplier</div>
-                    <div class="stat-value text-info">12</div>
+                    <div class="stat-value text-info"><?= $totalSupplier ?></div>
                     <div class="stat-desc text-black font-semibold">Supplier aktif</div>
                 </div>
             </div>
@@ -302,7 +302,7 @@ $username = session('username');
 new Chart(document.getElementById('chart'), {
     type: 'line',
     data: {
-        labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+        labels: ['11/11', '12/11', '13/11', '14/11', '15/11', '16/11', '17/11'],
         datasets: [{
             label: 'Penjualan',
             data: [80, 90, 75, 100, 95, 110, 130],
