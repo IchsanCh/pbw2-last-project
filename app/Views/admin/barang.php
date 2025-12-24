@@ -28,7 +28,7 @@
                 <input 
                     type="text" 
                     name="search" 
-                    placeholder="Cari nama barang..." 
+                    placeholder="Cari id atau nama barang..." 
                     class="input input-bordered input-primary join-item flex-1" 
                     value="<?= esc($search ?? '') ?>"
                 />

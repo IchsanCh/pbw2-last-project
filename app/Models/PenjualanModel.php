@@ -4,18 +4,20 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PembelianModel extends Model
+class PenjualanModel extends Model
 {
-    protected $table            = 'pembelians';
+    protected $table            = 'penjualans';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id',
-        'id_supplier',
         'id_user',
+        'status_bayar',
+        'nama_pembeli',
+        'alasan_batal',
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -32,25 +34,13 @@ class PembelianModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id'            => 'required|string|max_length[15]|is_unique[pembelians.id]',
-        'id_supplier'   => 'required|integer|is_not_unique[suppliers.id]',
-        'id_user'       => 'required|integer|is_not_unique[users.id]'
+        'id'            => 'required|max_length[20]',
+        'id_user'       => 'required|integer',
+        'status_bayar'  => 'required|in_list[lunas,belum lunas,dibatalkan]',
+        'nama_pembeli'  => 'permit_empty|max_length[100]',
+        'alasan_batal'  => 'permit_empty',
     ];
-    protected $validationMessages   = [
-        'id' => [
-            'required' => 'ID pembelian harus diisi.',
-            'max_length' => 'ID pembelian maksimal 15 karakter.',
-            'is_unique' => 'ID pembelian sudah digunakan.'
-        ],
-        'id_supplier' => [
-            'required' => 'Supplier harus dipilih.',
-            'is_not_unique' => 'Supplier tidak valid.'
-        ],
-        'id_user' => [
-            'required' => 'User harus diisi.',
-            'is_not_unique' => 'User tidak valid.'
-        ]
-    ];
+    protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 

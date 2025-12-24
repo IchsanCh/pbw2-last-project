@@ -9,28 +9,28 @@ class CreatePembelianTable extends Migration
     public function up()
     {
         $this->forge->addField([
-           'id' => [
+            'id' => [
                'type'           => 'VARCHAR',
                'constraint'     => 15,
-           ],
-           'id_supplier' => [
+            ],
+            'id_supplier' => [
                'type'       => 'INT',
                'constraint' => 12,
                 'unsigned'   => true,
-           ],
-           'id_user' => [
+            ],
+            'id_user' => [
                 'type'       => 'INT',
                 'constraint' => 12,
                 'unsigned'   => true,
-           ],
+            ],
             'created_at' => [
                'type' => 'DATETIME',
                'null' => true,
-           ],
-           'updated_at' => [
+            ],
+            'updated_at' => [
                'type' => 'DATETIME',
                'null' => true,
-           ]
+            ]
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_supplier', 'suppliers', 'id', 'RESTRICT', 'RESTRICT');

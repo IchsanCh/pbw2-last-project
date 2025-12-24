@@ -15,23 +15,26 @@ $segment = service('uri')->getSegment(1);
         </li>
         <?php if ($role === 'pemilik'): ?>
             <li class="menu-title text-black mt-2">Manajemen</li>
-            <li>
+            <li class="pl-4">
                 <a href="<?= base_url('kategori') ?>" class="<?= $segment === 'kategori' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Kategori</a>
             </li>
-            <li>
+            <li class="pl-4">
                 <a href="<?= base_url('barang') ?>" class="<?= $segment === 'barang' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Barang</a>
             </li>
-            <li>
+            <li class="pl-4">
                 <a href="<?= base_url('supplier') ?>" class="<?= $segment === 'supplier' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Supplier</a>
             </li>
-            <li>
+            <li class="pl-4">
+                <a href="<?= base_url('pembelian') ?>" class="<?= $segment === 'pembelian' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Pembelian</a>
+            </li>
+            <li class="pl-4">
                 <a href="<?= base_url('users') ?>" class="<?= $segment === 'users' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">User</a>
             </li>
             <li class="menu-title mt-3 text-black">Laporan</li>
-            <li>
+            <li class="pl-4">
                 <a href="<?= base_url('laporan/penjualan') ?>" class="<?= $segment === 'laporan/penjualan' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Penjualan</a>
             </li>
-             <li>
+            <li class="pl-4">
                 <a href="<?= base_url('laporan/pembelian') ?>" class="<?= $segment === 'laporan/pembelian' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Pembelian</a>
             </li>
         <?php endif; ?>
@@ -41,7 +44,7 @@ $segment = service('uri')->getSegment(1);
                 <a href="<?= base_url('transaksi') ?>">Transaksi</a>
             </li>
             <li>
-                <a href="<?= base_url('riwayat') ?>">Riwayat Transaksi</a>
+                <a href="<?= base_url('transaksi/riwayat') ?>">Riwayat Transaksi</a>
             </li>
         <?php endif; ?>
     </ul>

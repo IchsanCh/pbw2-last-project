@@ -4,18 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PembelianModel extends Model
+class DetilPenjualanModel extends Model
 {
-    protected $table            = 'pembelians';
+    protected $table            = 'detil_penjualans';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id',
-        'id_supplier',
-        'id_user',
+        'id_penjualan',
+        'id_barang',
+        'qty',
+        'harga_jual',
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -32,25 +33,12 @@ class PembelianModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id'            => 'required|string|max_length[15]|is_unique[pembelians.id]',
-        'id_supplier'   => 'required|integer|is_not_unique[suppliers.id]',
-        'id_user'       => 'required|integer|is_not_unique[users.id]'
+        'id_penjualan' => 'required|string|max_length[20]|is_not_unique[penjualans.id]',
+        'id_barang'    => 'required|string|max_length[20]|is_not_unique[barangs.id]',
+        'qty'          => 'required|decimal',
+        'harga_jual'   => 'required|integer'
     ];
-    protected $validationMessages   = [
-        'id' => [
-            'required' => 'ID pembelian harus diisi.',
-            'max_length' => 'ID pembelian maksimal 15 karakter.',
-            'is_unique' => 'ID pembelian sudah digunakan.'
-        ],
-        'id_supplier' => [
-            'required' => 'Supplier harus dipilih.',
-            'is_not_unique' => 'Supplier tidak valid.'
-        ],
-        'id_user' => [
-            'required' => 'User harus diisi.',
-            'is_not_unique' => 'User tidak valid.'
-        ]
-    ];
+    protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
