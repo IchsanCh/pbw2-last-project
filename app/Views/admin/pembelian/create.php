@@ -16,7 +16,6 @@
         <?= csrf_field() ?>
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-            <!-- Info Transaksi -->
             <div class="lg:col-span-2">
                 <div class="card bg-base-100 shadow-xl">
                     <div class="card-body">
@@ -52,7 +51,6 @@
                         <div class="divider">Daftar Barang</div>
 
                         <div id="items_container">
-                            <!-- Item pertama -->
                             <div class="item-row bg-base-200 p-4 rounded-lg mb-3" data-index="0">
                                 <div class="flex justify-between items-center mb-3">
                                     <span class="font-semibold">Item #1</span>
@@ -122,7 +120,6 @@
                 </div>
             </div>
 
-            <!-- Summary -->
             <div class="lg:col-span-1">
                 <div class="card bg-base-100 shadow-xl sticky top-4">
                     <div class="card-body">

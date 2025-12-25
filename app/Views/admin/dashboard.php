@@ -21,7 +21,7 @@ $username = session('username');
                         </svg>
                     </div>
                     <div class="stat-title text-black font-semibold">Total Transaksi</div>
-                    <div class="stat-value text-secondary">47</div>
+                    <div class="stat-value text-secondary"><?= $totalTransaksi ?></div>
                     <div class="stat-desc text-black font-semibold">Transaksi hari ini</div>
                 </div>
             </div>
@@ -51,13 +51,13 @@ $username = session('username');
             </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <div class="card bg-base-100 shadow-xl">
+            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-200">
                 <div class="card-body">
                     <h2 class="card-title">Penjualan 7 Hari Terakhir</h2>
                     <canvas id="chart"></canvas>
                 </div>
             </div>
-            <div class="card bg-base-100 shadow-xl">
+            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-200">
                 <div class="card-body">
                     <h2 class="card-title">Produk Terlaris Bulan Ini</h2>
                     <div class="overflow-x-auto">
@@ -70,31 +70,29 @@ $username = session('username');
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Beras Premium 5kg</td>
-                                    <td><span class="badge badge-primary">234</span></td>
-                                    <td class="font-semibold">Rp 14.8jt</td>
-                                </tr>
-                                <tr>
-                                    <td>Minyak Goreng 2L</td>
-                                    <td><span class="badge badge-primary">189</span></td>
-                                    <td class="font-semibold">Rp 6.8jt</td>
-                                </tr>
-                                <tr>
-                                    <td>Gula Pasir 1kg</td>
-                                    <td><span class="badge badge-primary">167</span></td>
-                                    <td class="font-semibold">Rp 3.2jt</td>
-                                </tr>
-                                <tr>
-                                    <td>Telur Ayam 1kg</td>
-                                    <td><span class="badge badge-primary">142</span></td>
-                                    <td class="font-semibold">Rp 4.1jt</td>
-                                </tr>
-                                <tr>
-                                    <td>Tepung Terigu 1kg</td>
-                                    <td><span class="badge badge-primary">128</span></td>
-                                    <td class="font-semibold">Rp 1.9jt</td>
-                                </tr>
+                                <?php if (!empty($produkTerlaris)): ?>
+                                    <?php foreach ($produkTerlaris as $item): ?>
+                                        <tr>
+                                            <td><?= esc($item['produk']) ?></td>
+
+                                            <td>
+                                                <span class="badge badge-primary">
+                                                    <?= number_format($item['terjual']) ?>
+                                                </span>
+                                            </td>
+
+                                            <td class="font-semibold">
+                                                Rp <?= number_format($item['pendapatan'], 0, ',', '.') ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="3" class="text-center text-gray-400">
+                                            Belum ada penjualan bulan ini
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -102,88 +100,83 @@ $username = session('username');
             </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="card bg-base-100 shadow-xl">
+            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-200">
                 <div class="card-body">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="card-title">Stok Menipis</h2>
-                        <span class="badge badge-warning">8 Produk</span>
+                        <span class="badge badge-warning"><?= $stokMenipis ?> Barang</span>
                     </div>
                     <div class="space-y-3">
-                        <div class="alert alert-warning">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <div class="flex-1">
-                                <div class="font-bold">Kecap Manis 600ml</div>
-                                <div class="text-sm">Stok: 3 botol (Min: 10)</div>
+                        <?php if (count($barangHabis) === 0): ?>
+                            <p class="text-center text-base-content/60 font-semibold">
+                                Tidak ada barang dengan stok menipis.
+                            </p>
                             </div>
-                        </div>
-                        <div class="alert alert-warning">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <div class="flex-1">
-                                <div class="font-bold">Sabun Cuci Piring</div>
-                                <div class="text-sm">Stok: 5 pcs (Min: 15)</div>
-                            </div>
-                        </div>
-                        <div class="alert alert-warning">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <div class="flex-1">
-                                <div class="font-bold">Susu Kental Manis</div>
-                                <div class="text-sm">Stok: 7 kaleng (Min: 20)</div>
-                            </div>
-                        </div>
+                        <?php else: ?>
+                            <?php foreach ($barangHabis as $barang): ?>
+                                <div class="alert alert-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6"
+                                        fill="none" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+
+                                    <div class="flex-1">
+                                        <div class="font-bold"><?= $barang['nama_brg']; ?></div>
+                                        <div class="text-sm">
+                                            Stok: <?= $barang['stok']; ?> <?= $barang['satuan']; ?>
+                                            (Min: <?= $barang['min_stok']; ?>)
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                       
                     </div>
-                    <div class="card-actions justify-end mt-4">
-                        <a href="<?= base_url('produk') ?>" class="btn btn-sm btn-primary">Lihat Semua</a>
-                    </div>
+                        <div class="card-actions justify-end mt-4">
+                            <a href="<?= base_url('barang') ?>" class="btn btn-sm btn-primary">Lihat Semua</a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
-            <div class="card bg-base-100 shadow-xl">
+            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-200">
                 <div class="card-body">
                     <h2 class="card-title">Aktivitas Terakhir</h2>
                     <div class="space-y-4">
-                        <div class="flex gap-3">
-                            <div class="avatar placeholder">
-                                <div class="bg-primary text-primary-content rounded-full w-10">
-                                    <span class="text-xs">JD</span>
+                        <?php if (!empty($logKasir)): ?>
+                            <?php foreach ($logKasir as $log): ?>
+                                <div>
+                                    <div class="flex gap-3">
+                                        <div class="avatar placeholder hidden md:block">
+                                            <div class="bg-primary text-primary-content rounded-full w-10">
+                                                <span class="text-xs">
+                                                    <?= esc(
+                                                        initial_nama(
+                                                            $log['nama'] ?: $log['username']
+                                                        )
+                                                    ) ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-semibold">
+                                                <?= esc($log['nama']) ?> (<?= esc($log['username']) ?>)
+                                            </p>
+                                            <p class="text-sm text-base-content/80 font-semibold">
+                                                Melakukan transaksi senilai Rp <?= number_format($log['nominal'], 0, ',', '.') ?>
+                                            </p>
+                                            <p class="text-xs text-base-content/70 font-semibold">
+                                                <?= date('j F Y, H:i', strtotime($log['created_at'])) ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="divider my-0"></div>
                                 </div>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold">John (Kasir)</p>
-                                <p class="text-sm text-base-content/60">Melakukan transaksi senilai Rp 127.500</p>
-                                <p class="text-xs text-base-content/40">5 menit yang lalu</p>
-                            </div>
-                        </div>
-                        <div class="divider my-0"></div>
-                        <div class="flex gap-3">
-                            <div class="avatar placeholder">
-                                <div class="bg-secondary text-secondary-content rounded-full w-10">
-                                    <span class="text-xs">AS</span>
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold">Admin</p>
-                                <p class="text-sm text-base-content/60">Menambah stok Beras Premium 5kg (50 pcs)</p>
-                                <p class="text-xs text-base-content/40">1 jam yang lalu</p>
-                            </div>
-                        </div>
-                        <div class="divider my-0"></div>
-                        <div class="flex gap-3">
-                            <div class="avatar placeholder">
-                                <div class="bg-accent text-accent-content rounded-full w-10">
-                                    <span class="text-xs">SR</span>
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <p class="font-semibold">Sarah (Kasir)</p>
-                                <p class="text-sm text-base-content/60">Melakukan transaksi senilai Rp 85.000</p>
-                                <p class="text-xs text-base-content/40">2 jam yang lalu</p>
-                            </div>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p class="text-center text-base-content/60 font-semibold">
+                                Belum ada aktivitas kasir.
+                            </p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -199,7 +192,7 @@ $username = session('username');
                         </svg>
                     </div>
                     <div class="stat-title font-semibold text-black">Transaksi Saya</div>
-                    <div class="stat-value text-primary">23</div>
+                    <div class="stat-value text-primary"><?= $totalTransaksiDilakukan ?></div>
                     <div class="stat-desc text-black font-semibold">Hari ini <?= date('d-m-Y') ?></div>
                 </div>
             </div>
@@ -211,7 +204,7 @@ $username = session('username');
                         </svg>
                     </div>
                     <div class="stat-title text-black font-semibold">Total Penjualan</div>
-                    <div class="stat-value text-secondary">Rp 1.2jt</div>
+                    <div class="stat-value text-secondary">Rp <?= number_format($hasilPendapatan, 0, "", "."); ?></div>
                     <div class="stat-desc text-black font-semibold">Hari ini <?= date('d-m-Y') ?></div>
                 </div>
             </div>
@@ -223,23 +216,23 @@ $username = session('username');
                         </svg>
                     </div>
                     <div class="stat-title text-black font-semibold">Rata-rata</div>
-                    <div class="stat-value text-accent">52k</div>
+                    <div class="stat-value text-accent"><?= number_format($rataRataTransaksi, 0, "", "."); ?></div>
                     <div class="stat-desc text-black font-semibold">Per transaksi</div>
                 </div>
             </div>
         </div>
-        <div class="card bg-base-100 shadow-xl mb-6">
+        <div class="card bg-base-100 shadow-xl mb-6 hover:shadow-2xl transition-all duration-200">
             <div class="card-body">
                 <h2 class="card-title mb-4">Menu Cepat</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="<?= base_url('transaksi') ?>" class="btn btn-primary btn-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <a href="<?= base_url('penjualan/create') ?>" class="btn btn-primary btn-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden md:block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                         Transaksi Baru
                     </a>
                     <a href="<?= base_url('riwayat') ?>" class="btn btn-secondary btn-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden md:block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         Riwayat Transaksi
@@ -254,70 +247,76 @@ $username = session('username');
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>No. Invoice</th>
-                                <th>Waktu</th>
-                                <th>Total</th>
-                                <th>Status</th>
+                                <th class="min-w-[160px]">No Penjualan</th>
+                                <th class="min-w-[160px]">Waktu</th>
+                                <th class="min-w-[150px]">Total</th>
+                                <th class="min-w-[140px]">Status</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
+    <?php if (!empty($transaksiTerakhir)) : ?>
+        <?php foreach ($transaksiTerakhir as $tr) : ?>
+            <tr>
+                <td class="font-mono"><?= $tr['no_penjualan']; ?></td>
+                <td><?= date($tr['waktu']); ?></td>
+                <td class="font-semibold">
+                    Rp <?= number_format($tr['total_harga'], 0, ',', '.'); ?>
+                </td>
+                <td>
+                    <?php
+            $badgeClass = 'badge-secondary';
+            $statusLabel = ucfirst($tr['status']);
+
+            if ($tr['status'] === 'lunas') {
+                $badgeClass = 'badge-success';
+            } elseif ($tr['status'] === 'dibatalkan') {
+                $badgeClass = 'badge-error';
+            } elseif ($tr['status'] === 'belum lunas') {
+                $badgeClass = 'badge-warning';
+            }
+            ?>
+                                        <span class="badge font-semibold <?= $badgeClass; ?>"><?= $statusLabel; ?></span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
                             <tr>
-                                <td class="font-mono">INV-20241221-047</td>
-                                <td>14:32</td>
-                                <td class="font-semibold">Rp 127.500</td>
-                                <td><span class="badge badge-success">Selesai</span></td>
+                                <td colspan="4" class="text-center">Belum ada transaksi hari ini.</td>
                             </tr>
-                            <tr>
-                                <td class="font-mono">INV-20241221-046</td>
-                                <td>14:15</td>
-                                <td class="font-semibold">Rp 85.000</td>
-                                <td><span class="badge badge-success">Selesai</span></td>
-                            </tr>
-                            <tr>
-                                <td class="font-mono">INV-20241221-045</td>
-                                <td>13:58</td>
-                                <td class="font-semibold">Rp 234.500</td>
-                                <td><span class="badge badge-success">Selesai</span></td>
-                            </tr>
-                            <tr>
-                                <td class="font-mono">INV-20241221-044</td>
-                                <td>13:42</td>
-                                <td class="font-semibold">Rp 67.000</td>
-                                <td><span class="badge badge-success">Selesai</span></td>
-                            </tr>
-                            <tr>
-                                <td class="font-mono">INV-20241221-043</td>
-                                <td>13:28</td>
-                                <td class="font-semibold">Rp 156.000</td>
-                                <td><span class="badge badge-success">Selesai</span></td>
-                            </tr>
-                        </tbody>
+                        <?php endif; ?>
+                    </tbody>
                     </table>
                 </div>
             </div>
         </div>
     <?php endif; ?>
 </div>
+<?php if ($role === 'pemilik'): ?>
 <script>
-new Chart(document.getElementById('chart'), {
-    type: 'line',
-    data: {
-        labels: ['11/11', '12/11', '13/11', '14/11', '15/11', '16/11', '17/11'],
-        datasets: [{
-            label: 'Penjualan',
-            data: [80, 90, 75, 100, 95, 110, 130],
-            tension: 0.2
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: false
-            }
-        }
-    }
-});
+    const labels = <?= $labels ?? '[]' ?>;
+    const dataPenjualan = <?= $data ?? '[]' ?>;
 
+    const ctx = document.getElementById('chart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Penjualan',
+                    data: dataPenjualan,
+                    tension: 0.2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
 </script>
+<?php endif; ?>
 <?= $this->endSection() ?>

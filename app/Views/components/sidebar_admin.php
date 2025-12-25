@@ -1,6 +1,7 @@
 <?php
 $role = session('role');
 $username = session('username');
+$uri = uri_string();
 $segment = service('uri')->getSegment(1);
 ?>
 
@@ -41,10 +42,10 @@ $segment = service('uri')->getSegment(1);
         <?php if ($role === 'kasir'): ?>
             <li class="menu-title mt-2 text-black">Kasir</li>
             <li>
-                <a href="<?= base_url('transaksi') ?>">Transaksi</a>
+                <a href="<?= base_url('penjualan/create') ?>" class="<?= $uri === 'penjualan/create' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Checkout Penjualan</a>
             </li>
             <li>
-                <a href="<?= base_url('transaksi/riwayat') ?>">Riwayat Transaksi</a>
+                <a href="<?= base_url('riwayat') ?>" class="<?= $segment === 'riwayat' ? 'active font-bold text-white' : 'text-black hover:bg-black hover:text-white hover:font-semibold' ?>">Riwayat Transaksi</a>
             </li>
         <?php endif; ?>
     </ul>

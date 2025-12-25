@@ -98,7 +98,7 @@ foreach ($detils as $detil): ?>
             </div>
         </div>
 
-        <div class="lg:col-span-1">
+        <div class="lg:col-span-1 ringkasan-print">
             <div class="card bg-base-100 shadow-xl sticky top-4">
                 <div class="card-body">
                     <h2 class="card-title text-lg mb-4">Ringkasan</h2>
@@ -200,10 +200,12 @@ window.addEventListener('afterprint', function() {
 
 <style>
 @media print {
-    .btn, .modal, nav, aside, .no-print {
+    .btn, .modal, nav, aside, .no-print, .ringkasan-print {
         display: none !important;
     }
-    
+    .footer p {
+        color: black !important;
+    }
     .card {
         box-shadow: none !important;
         border: 1px solid #ddd;

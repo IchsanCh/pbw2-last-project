@@ -54,4 +54,17 @@ class PenjualanModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    public function getRiwayatByUser($userId, $search = null)
+    {
+        $builder = $this->select('penjualans.*, users.nama as nama_user')
+            ->join('users', 'users.id = penjualans.id_user')
+            ->where('penjualans.id_user', $userId)
+            ->orderBy('penjualans.created_at', 'DESC');
+
+        if ($search) {
+            $builder->like('penjualans.id', $search);
+        }
+
+        return $builder;
+    }
 }

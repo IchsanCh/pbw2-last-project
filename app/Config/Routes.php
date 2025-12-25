@@ -16,11 +16,13 @@ $routes->get('/dashboard', 'DashboardController::index', [
 ]);
 
 $routes->group('', ['filter' => 'role:kasir'], function ($routes) {
-    $routes->group('transaksi', function ($routes) {
-        $routes->get('/', 'PenjualanController::index');
+    $routes->group('penjualan', function ($routes) {
+        $routes->get('create', 'PenjualanController::create');
         $routes->post('store', 'PenjualanController::store');
-        $routes->get('riwayat', 'PenjualanController::riwayat');
-        $routes->get('riwayat/(:segment)', 'PenjualanController::detail/$1');
+    });
+    $routes->group('riwayat', function ($routes) {
+        $routes->get('/', 'PenjualanController::index');
+        $routes->get('detail/(:segment)', 'PenjualanController::detil/$1');
     });
 });
 

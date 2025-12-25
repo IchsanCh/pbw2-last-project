@@ -56,12 +56,12 @@
                 <table class="table table-zebra">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Nama Kategori</th>
-                            <th>Status</th>
-                            <th>Dibuat</th>
-                            <th>Diperbarui</th>
-                            <th>Aksi</th>
+                            <th class="min-w-[40px]">No</th>
+                            <th class="min-w-[180px]">Nama Kategori</th>
+                            <th class="min-w-[130px]">Status</th>
+                            <th class="min-w-[150px]">Dibuat</th>
+                            <th class="min-w-[150px]">Diperbarui</th>
+                            <th class="min-w-[50px]">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
