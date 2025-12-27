@@ -3,12 +3,12 @@
 <?= $this->section('content') ?>
 <div class="container mx-auto px-4 py-6">
     <div class="flex items-center gap-4 mb-6">
-        <a href="<?= base_url('pembelian') ?>" class="btn btn-ghost">
+        <button onclick="window.location.href = document.referrer || '<?= base_url('pembelian') ?>'" class="btn btn-ghost">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
             </svg>
             Kembali
-        </a>
+        </button>
         <h1 class="text-3xl font-bold">Detail Transaksi Pembelian</h1>
     </div>
 
@@ -140,7 +140,7 @@ foreach ($detils as $detil): ?>
                             Hapus Transaksi
                         </button>
 
-                        <a href="<?= base_url('pembelian') ?>" class="btn btn-ghost btn-block">Kembali ke List</a>
+                        <button onclick="window.location.href = document.referrer || '<?= base_url('pembelian') ?>'" class="btn btn-ghost btn-block">Kembali ke List</button>
                     </div>
                 </div>
             </div>

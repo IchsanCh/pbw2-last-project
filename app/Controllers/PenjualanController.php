@@ -292,60 +292,44 @@ class PenjualanController extends BaseController
         return view('admin/riwayat/detil', $data);
     }
 
-    public function cancel()
+    public function showEdit()
     {
         if (!session()->get('isLoggedIn')) {
             return redirect()->to('/login');
         }
-        if (session()->get('role') !== 'pemilik') {
-            return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk membatalkan transaksi.');
+        $search = $this->request->getGet('search');
+
+        $builder = $this->penjualanModel->orderBy('created_at', 'DESC');
+        if (!empty($search)) {
+            $builder->like('id', $search)->orderBy('created_at', 'DESC');
         }
 
-        $id = $this->request->getPost('id');
-        $alasan_batal = $this->request->getPost('alasan_batal');
+        $penjualans = $builder->paginate(10, 'default');
 
-        if (empty($alasan_batal)) {
-            return redirect()->back()->with('error', 'Alasan pembatalan harus diisi.');
-        }
+        foreach ($penjualans as &$penjualan) {
+            $detils = $this->detilPenjualanModel
+                ->where('id_penjualan', $penjualan['id'])
+                ->findAll();
 
-        $penjualan = $this->penjualanModel->find($id);
-        if (!$penjualan) {
-            return redirect()->back()->with('error', 'Transaksi penjualan tidak ditemukan.');
-        }
+            $totalItem = count($detils);
+            $totalHarga = 0;
 
-        if ($penjualan['status_bayar'] === 'dibatalkan') {
-            return redirect()->back()->with('error', 'Transaksi ini sudah dibatalkan sebelumnya.');
-        }
-
-        $db = \Config\Database::connect();
-        $db->transStart();
-
-        try {
-            // Hapus detail penjualan (stok akan dikembalikan otomatis oleh trigger delete)
-            $this->detilPenjualanModel->where('id_penjualan', $id)->delete();
-
-            // Update status penjualan
-            $updateResult = $this->penjualanModel->update($id, [
-                'status_bayar' => 'dibatalkan',
-                'alasan_batal' => $alasan_batal
-            ]);
-
-            if (!$updateResult) {
-                throw new \Exception('Gagal membatalkan transaksi penjualan.');
+            foreach ($detils as $detil) {
+                $totalHarga += ($detil['qty'] * $detil['harga_jual']);
             }
 
-            $db->transComplete();
-
-            if ($db->transStatus() === false) {
-                throw new \Exception('Transaksi database gagal.');
-            }
-
-            return redirect()->to('/penjualan')->with('success', 'Transaksi penjualan berhasil dibatalkan dan stok dikembalikan!');
-
-        } catch (\Exception $e) {
-            $db->transRollback();
-            return redirect()->back()->with('error', 'Gagal membatalkan transaksi: ' . $e->getMessage());
+            $penjualan['total_item'] = $totalItem;
+            $penjualan['total_harga'] = $totalHarga;
         }
+
+        $data = [
+            'title' => 'Transaksi Penjualan',
+            'penjualans' => $penjualans,
+            'pager' => $this->penjualanModel->pager,
+            'search' => $search
+        ];
+
+        return view('admin/penjualan/index', $data);
     }
 
     public function updateStatus()
@@ -354,35 +338,34 @@ class PenjualanController extends BaseController
             return redirect()->to('/login');
         }
 
-        // Hanya pemilik yang bisa update status pembayaran
-        if (session()->get('role') !== 'pemilik') {
-            return redirect()->back()->with('error', 'Anda tidak memiliki akses untuk mengubah status pembayaran.');
-        }
-
         $id = $this->request->getPost('id');
         $status_bayar = $this->request->getPost('status_bayar');
-
-        if (!in_array($status_bayar, ['lunas', 'belum lunas'])) {
-            return redirect()->back()->with('error', 'Status pembayaran tidak valid.');
+        $alasan_batal = $this->request->getPost('alasan_batal');
+        $nama_pembeli = $this->request->getPost('nama_pembeli');
+        if ($status_bayar === 'belum lunas' && empty($nama_pembeli)) {
+            return redirect()->to('penjualan/edit')->with('error', 'Nama pembeli wajib diisi untuk status Belum Lunas');
         }
 
-        $penjualan = $this->penjualanModel->find($id);
-        if (!$penjualan) {
-            return redirect()->back()->with('error', 'Transaksi penjualan tidak ditemukan.');
+        if ($status_bayar === 'dibatalkan' && empty($alasan_batal)) {
+            return redirect()->to('penjualan/edit')->with('error', 'Alasan pembatalan wajib diisi untuk status Dibatalkan');
         }
 
-        if ($penjualan['status_bayar'] === 'dibatalkan') {
-            return redirect()->back()->with('error', 'Tidak dapat mengubah status transaksi yang sudah dibatalkan.');
-        }
-
-        $updateResult = $this->penjualanModel->update($id, [
-            'status_bayar' => $status_bayar
-        ]);
-
-        if ($updateResult) {
-            return redirect()->back()->with('success', 'Status pembayaran berhasil diubah menjadi ' . $status_bayar . '!');
+        $data = [
+            'status_bayar' => $status_bayar,
+        ];
+        if ($status_bayar === 'belum lunas') {
+            $data['nama_pembeli'] = $nama_pembeli;
+            $data['alasan_batal'] = null;
+        } elseif ($status_bayar === 'dibatalkan') {
+            $data['alasan_batal'] = $alasan_batal;
         } else {
-            return redirect()->back()->with('error', 'Gagal mengubah status pembayaran.');
+            $data['alasan_batal'] = null;
+        }
+
+        if ($this->penjualanModel->update($id, $data)) {
+            return redirect()->to('penjualan/edit')->with('success', 'Status pembayaran berhasil diupdate');
+        } else {
+            return redirect()->to('penjualan/edit')->with('error', 'Gagal update status pembayaran');
         }
     }
 }

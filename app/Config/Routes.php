@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('/about', 'Home::about');
 
 $routes->get('/login', 'LoginController::index');
 $routes->post('/login', 'LoginController::validateLogin');
@@ -22,12 +23,23 @@ $routes->group('', ['filter' => 'role:kasir'], function ($routes) {
     });
     $routes->group('riwayat', function ($routes) {
         $routes->get('/', 'PenjualanController::index');
+    });
+});
+$routes->group('', ['filter' => 'role:pemilik,kasir'], function ($routes) {
+    $routes->group('riwayat', function ($routes) {
         $routes->get('detail/(:segment)', 'PenjualanController::detil/$1');
     });
 });
-
 $routes->group('', ['filter' => 'role:pemilik'], function ($routes) {
 
+    $routes->group('penjualan', function ($routes) {
+        $routes->get('edit', 'PenjualanController::showEdit');
+        $routes->post('update', 'PenjualanController::updateStatus');
+    });
+    $routes->group('laporan', function ($routes) {
+        $routes->get('penjualan', 'LaporanController::penjualan');
+        $routes->get('pembelian', 'LaporanController::pembelian');
+    });
     $routes->group('kategori', function ($routes) {
         $routes->get('/', 'KategoriController::index');
         $routes->post('store', 'KategoriController::store');

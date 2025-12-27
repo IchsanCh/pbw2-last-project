@@ -4,8 +4,8 @@
 <div class="container mx-auto px-4 py-6">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
-            <h1 class="text-3xl font-bold">Riwayat Transaksi</h1>
-            <p class="text-sm text-gray-600 mt-1">Riwayat transaksi penjualan yang Anda lakukan</p>
+            <h1 class="text-3xl font-bold">Transaksi Penjualan</h1>
+            <p class="text-sm text-gray-600 mt-1">Riwayat transaksi penjualan</p>
         </div>
     </div>
 
@@ -27,7 +27,7 @@
 
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body overflow-x-auto">
-            <form action="<?= base_url('riwayat') ?>" method="get" class="mb-4">
+            <form action="<?= base_url('penjualan/edit') ?>" method="get" class="mb-4">
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1">
                         <div class="join w-full">
@@ -46,7 +46,7 @@
                             </button>
 
                             <?php if (!empty($search)): ?>
-                                <a href="<?= base_url('riwayat') ?>" class="btn btn-warning join-item">
+                                <a href="<?= base_url('penjualan/edit') ?>" class="btn btn-warning join-item">
                                     Reset
                                 </a>
                             <?php endif; ?>
@@ -139,8 +139,16 @@
                                                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                                                 <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
                                             </svg>
-                                            Detail
                                         </a>
+                                        <button 
+                                            onclick='openEditModal(<?= json_encode($penjualan['id']) ?>, <?= json_encode($penjualan['status_bayar']) ?>, <?= json_encode($penjualan['alasan_batal'] ?? '') ?>, <?= json_encode($penjualan['nama_pembeli'] ?? '') ?>)' 
+                                            class="btn btn-sm btn-warning gap-2"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
+                                                <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                                <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                            </svg>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -157,4 +165,101 @@
         </div>
     </div>
 </div>
+
+<dialog id="modal_edit_status" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg mb-4">Edit Status Pembayaran</h3>
+        <form action="<?= base_url('penjualan/update') ?>" method="post">
+            <?= csrf_field() ?>
+            <input type="hidden" name="id" id="edit_id">
+            
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">ID Penjualan</span>
+                </label>
+                <input type="text" id="display_id" class="input input-bordered input-primary" disabled>
+            </div>
+
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">Status Pembayaran</span>
+                </label>
+                <select name="status_bayar" id="edit_status_bayar" class="select select-bordered select-primary" required onchange="toggleRequiredFields()">
+                    <option value="">Pilih Status</option>
+                    <option value="lunas">Lunas</option>
+                    <option value="belum lunas">Belum Lunas</option>
+                    <option value="dibatalkan">Dibatalkan</option>
+                </select>
+            </div>
+
+            <div class="form-control mb-4" id="nama_pembeli_container" style="display: none;">
+                <label class="label">
+                    <span class="label-text font-semibold">Nama Pembeli <span class="text-error">*</span></span>
+                </label>
+                <input 
+                    type="text" 
+                    name="nama_pembeli" 
+                    id="edit_nama_pembeli" 
+                    class="input input-bordered input-primary w-full" 
+                    placeholder="Masukkan nama pembeli..."
+                />
+            </div>
+
+            <div class="form-control mb-4" id="alasan_batal_container" style="display: none;">
+                <label class="label">
+                    <span class="label-text font-semibold">Alasan Pembatalan <span class="text-error">*</span></span>
+                </label>
+                <textarea 
+                    name="alasan_batal" 
+                    id="edit_alasan_batal" 
+                    class="textarea textarea-bordered h-24 textarea-primary w-full" 
+                    placeholder="Masukkan alasan pembatalan..."
+                ></textarea>
+            </div>
+
+            <div class="modal-action">
+                <button type="button" class="btn" onclick="modal_edit_status.close()">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+<script>
+function openEditModal(id, status, alasan, namaPembeli) {
+    document.getElementById('edit_id').value = id;
+    document.getElementById('display_id').value = id;
+    document.getElementById('edit_status_bayar').value = status;
+    document.getElementById('edit_alasan_batal').value = alasan || '';
+    document.getElementById('edit_nama_pembeli').value = namaPembeli || '';
+    
+    toggleRequiredFields();
+    modal_edit_status.showModal();
+}
+
+function toggleRequiredFields() {
+    const status = document.getElementById('edit_status_bayar').value;
+    const namaPembeliContainer = document.getElementById('nama_pembeli_container');
+    const namaPembeliInput = document.getElementById('edit_nama_pembeli');
+    const alasanBatalContainer = document.getElementById('alasan_batal_container');
+    const alasanBatalTextarea = document.getElementById('edit_alasan_batal');
+    
+    namaPembeliContainer.style.display = 'none';
+    namaPembeliInput.required = false;
+    alasanBatalContainer.style.display = 'none';
+    alasanBatalTextarea.required = false;
+    
+    if (status === 'belum lunas') {
+        namaPembeliContainer.style.display = 'block';
+        namaPembeliInput.required = true;
+    } else if (status === 'dibatalkan') {
+        alasanBatalContainer.style.display = 'block';
+        alasanBatalTextarea.required = true;
+    }
+}
+</script>
+
 <?= $this->endSection() ?>

@@ -24,9 +24,9 @@ class PembelianController extends BaseController
         $this->barangModel = new BarangModel();
     }
 
-    /**
-     * Generate ID pembelian format: PB-YYYYMMDD-XXX
-    */
+
+    // Generate ID pembelian format: PB-YYYYMMDD-XXX
+
     private function generateIdPembelian()
     {
         $date = date('Ymd');
