@@ -1,68 +1,115 @@
-# CodeIgniter 4 Application Starter
+# 🚀 CodeIgniter 4 Project
 
-## What is CodeIgniter?
+Project ini dibangun menggunakan **CodeIgniter 4** sebagai framework backend dan **Tailwind CSS + DaisyUI v4** untuk tampilan antarmuka. Project ini dibuat sebagai tugas akhir mata kuliah Pemrograman Berbasis Web 2
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+---
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## 📌 Deskripsi Singkat
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+Website ini merupakan aplikasi berbasis web yang memiliki halaman publik (Home & About) serta halaman admin.
+Halaman **About** menampilkan anggota kelompok dan teknologi yang digunakan dalam pengembangan web.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+---
 
-## Installation & updates
+## 🛠️ Teknologi yang Digunakan
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+- PHP >= 8.1
+- CodeIgniter 4
+- MySQL / MariaDB
+- Tailwind CSS
+- DaisyUI v4
+- Composer
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+---
 
-## Setup
+## ⚙️ Cara Setup Project
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### 1. Clone Repository
 
-## Important Change with index.php
+```bash
+git clone https://github.com/username/nama-project.git
+cd nama-project
+```
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### 2. Install Dependency
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+```bash
+composer install
+npm install
+npm run dev
+```
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### 3. Konfigurasi Environment
 
-## Repository Management
+Salin file env:
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```bash
+cp env .env
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Edit `.env`:
 
-## Server Requirements
+```env
+CI_ENVIRONMENT = development
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+app.baseURL = 'http://localhost:8080/'
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+database.default.hostname = localhost
+database.default.database = nama_database
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+### 4. Generate App Key
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```bash
+php spark app:key:generate
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### 5. Migrasi Database
+
+```bash
+php spark migrate
+```
+
+Seeder:
+
+```bash
+php spark db:seed UserSeeder
+```
+
+---
+
+## ▶️ Menjalankan Aplikasi
+
+```bash
+php spark serve
+```
+
+Akses:
+
+```
+http://localhost:8080
+```
+
+## User Seeder
+
+```bash
+username: pemilik
+password: pemilik123
+
+username: kasir
+password: kasir123
+```
+
+---
+
+## 👥 Anggota Kelompok
+
+- Fauzan Priatmana (24.240.0027)
+- Muhammad Ichsan (24.240.0028)
+- Nadhifatunnizza (24.240.0064)
+- Imel Aimanda Bregawati (24.240.0080)
+
+---
