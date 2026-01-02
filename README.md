@@ -36,7 +36,7 @@ cd nama-project
 ```bash
 composer install
 npm install
-npm run dev
+npm run build
 ```
 
 ### 3. Konfigurasi Environment
