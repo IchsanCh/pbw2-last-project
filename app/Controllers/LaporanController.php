@@ -108,13 +108,29 @@ class LaporanController extends BaseController
                 $p['total_harga'] += $d['qty'] * $d['harga_jual'];
             }
         }
+        $totalPendapatan = 0;
+        $totalItemTerjual = 0;
+        foreach ($penjualans as $ps) {
+            if (
+                !$statusBayar &&
+                in_array($ps['status_bayar'], ['lunas', 'belum lunas'])
+            ) {
+                $totalPendapatan += $ps['total_harga'];
+                $totalItemTerjual += $ps['total_item'];
+            }
+
+            if ($statusBayar && $ps['status_bayar'] === $statusBayar) {
+                $totalPendapatan += $ps['total_harga'];
+                $totalItemTerjual += $ps['total_item'];
+            }
+        }
 
 
         $stats = [
             'total_transaksi'  => count($penjualans),
             'transaksi_lunas'  => count(array_filter($penjualans, fn ($p) => $p['status_bayar'] === 'lunas')),
-            'total_pendapatan' => array_sum(array_column($penjualans, 'total_harga')),
-            'total_item'       => array_sum(array_column($penjualans, 'total_item')),
+            'total_pendapatan' => $totalPendapatan,
+            'total_item'       => $totalItemTerjual,
         ];
 
         return view('admin/penjualan/laporan', [

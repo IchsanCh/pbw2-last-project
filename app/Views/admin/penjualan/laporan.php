@@ -77,7 +77,7 @@ $hasFilter =
             <p class="text-xl font-bold"><?= number_format($stats['total_transaksi'] ?? 0) ?></p>
         </div>
         <div class="card bg-base-100 shadow p-4">
-            <h3 class="font-semibold text-gray-500 text-sm">Total Pendapatan</h3>
+            <h3 class="font-semibold text-gray-500 text-sm">Total Value</h3>
             <p class="text-xl font-bold text-success">Rp <?= number_format($stats['total_pendapatan'] ?? 0, 0, ',', '.') ?></p>
         </div>
         <div class="card bg-base-100 shadow p-4">

@@ -63,7 +63,7 @@
                             <th class="min-w-[150px]">Total Item</th>
                             <th class="min-w-[180px]">Total Harga</th>
                             <th class="min-w-[180px]">Tanggal</th>
-                            <th class="min-w-[130px] bg-base-200 sticky right-0 z-10">Aksi</th>
+                            <th class="min-w-[130px]">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,7 +85,7 @@
                                         <span class="font-semibold">Rp <?= number_format($pembelian['total_harga'], 0, ',', '.') ?></span>
                                     </td>
                                     <td><?= date('d-m-Y H:i', strtotime($pembelian['created_at'])) ?></td>
-                                    <td class="sticky right-0 bg-base-100">
+                                    <td>
                                         <div class="flex gap-2">
                                             <a href="<?= base_url('pembelian/detail/' . $pembelian['id']) ?>" class="btn btn-sm btn-info" title="Lihat Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">

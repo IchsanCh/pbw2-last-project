@@ -48,8 +48,8 @@
                                     <span class="label-text">Status Pembayaran <span class="text-error">*</span></span>
                                 </label>
                                 <select name="status_bayar" id="status_bayar" class="select select-bordered select-primary w-full" onchange="toggleNamaPembeli()" required>
-                                    <option value="lunas" selected>💰 Lunas (Cash)</option>
-                                    <option value="belum lunas">📝 Belum Lunas (Hutang)</option>
+                                    <option value="lunas" selected>Lunas (Cash)</option>
+                                    <option value="belum lunas">Belum Lunas (Hutang)</option>
                                 </select>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                                 class="input input-bordered input-primary w-full" 
                             />
                             <label class="label">
-                                <span class="label-text-alt text-warning">⚠️ Wajib diisi untuk transaksi hutang</span>
+                                <span class="label-text-alt text-warning">Wajib diisi untuk transaksi hutang</span>
                             </label>
                         </div>
 
@@ -440,7 +440,7 @@ function confirmCheckout() {
     }
     
     const idPenjualan = document.querySelector('input[name="id"]').value;
-    const statusText = statusBayar === 'lunas' ? '💰 Lunas (Cash)' : '📝 Belum Lunas (Hutang)';
+    const statusText = statusBayar === 'lunas' ? 'Lunas (Cash)' : 'Belum Lunas (Hutang)';
     
     document.getElementById('confirm_id').textContent = idPenjualan;
     document.getElementById('confirm_status').textContent = statusText;

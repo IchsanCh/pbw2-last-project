@@ -12,10 +12,6 @@ $routes->get('/login', 'LoginController::index');
 $routes->post('/login', 'LoginController::validateLogin');
 $routes->get('/logout', 'LoginController::logout');
 
-$routes->get('/dashboard', 'DashboardController::index', [
-    'filter' => 'role:pemilik,kasir'
-]);
-
 $routes->group('', ['filter' => 'role:kasir'], function ($routes) {
     $routes->group('penjualan', function ($routes) {
         $routes->get('create', 'PenjualanController::create');
@@ -29,6 +25,7 @@ $routes->group('', ['filter' => 'role:pemilik,kasir'], function ($routes) {
     $routes->group('riwayat', function ($routes) {
         $routes->get('detail/(:segment)', 'PenjualanController::detil/$1');
     });
+    $routes->get('/dashboard', 'DashboardController::index');
 });
 $routes->group('', ['filter' => 'role:pemilik'], function ($routes) {
 

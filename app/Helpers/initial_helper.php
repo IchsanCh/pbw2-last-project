@@ -1,7 +1,7 @@
 <?php
 
 if (!function_exists('initial_nama')) {
-    function initial_nama(?string $nama, int $max = 2): string
+    function initial_nama(?string $nama, int $max = 3): string
     {
         if (!$nama) {
             return '?';
